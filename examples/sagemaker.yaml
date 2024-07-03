@@ -6,6 +6,8 @@ documentation: https://github.com/NVIDIA/nim-deploy/tree/main/cloud-service-prov
 ports:
   - port: 8080
     protocol: TCP
+  - port: 8000
+    protocol: TCP
 checks:
   - name: uid
     description: 🆔 User ID is 0
@@ -16,14 +18,14 @@ checks:
           - -c
           - "id | grep uid=0"
   - name: proxy-http-ping
-    description: 🧭 Correctly routes /health
+    description: 🌏 Proxy routes /ping on TCP 8080
     probe:
       httpGet:
         path: /ping
         port: 8080
       failureThreshold: 30
   - name: proxy-http-invocations
-    description: 🌏 Exposes an HTTP interface on port 8080 and path /invocations
+    description: 🌏 Proxy routes /invocations on TCP 8080
     probe:
       httpGet:
         path: /invocations
