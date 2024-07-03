@@ -6,8 +6,6 @@ documentation: https://github.com/NVIDIA/nim-deploy/tree/main/cloud-service-prov
 ports:
   - port: 8080
     protocol: TCP
-  - port: 8000
-    protocol: TCP
 checks:
   - name: uid
     description: 🆔 User ID is 0
