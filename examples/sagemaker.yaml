@@ -15,17 +15,31 @@ checks:
           - /bin/sh
           - -c
           - "id | grep uid=0"
-  - name: http-health
+  - name: proxy-http-ping
     description: 🧭 Correctly routes /health
     probe:
       httpGet:
-        path: /health
+        path: /ping
         port: 8080
-      failureThreshold: 180
-  - name: http-invocations
+      failureThreshold: 30
+  - name: proxy-http-invocations
     description: 🌏 Exposes an HTTP interface on port 8080 and path /invocations
     probe:
       httpGet:
-        path: /
+        path: /invocations
         port: 8080
-      failureThreshold: 180
+      failureThreshold: 30
+  - name: core-http-health
+    description: 🧭 NIM Correctly routes /v1/health/ready
+    probe:
+      httpGet:
+        path: /v1/health/ready
+        port: 8000
+      failureThreshold: 30
+  - name: core-http-chat
+    description: 🧭 NIM Correctly routes /v1/chat/completions
+    probe:
+      httpGet:
+        path: /v1/chat/completions
+        port: 8000
+      failureThreshold: 30
