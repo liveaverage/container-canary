@@ -1,0 +1,31 @@
+apiVersion: container-canary.nvidia.com/v1
+kind: Validator
+name: sagemaker-nim
+description: Sagemaker-compatible NIM
+documentation: https://github.com/NVIDIA/nim-deploy/tree/main/cloud-service-providers/aws/sagemaker
+ports:
+  - port: 8080
+    protocol: TCP
+checks:
+  - name: uid
+    description: 🆔 User ID is 0
+    probe:
+      exec:
+        command:
+          - /bin/sh
+          - -c
+          - "id | grep uid=0"
+  - name: http-health
+    description: 🧭 Correctly routes /health
+    probe:
+      httpGet:
+        path: /health
+        port: 8080
+      failureThreshold: 180
+  - name: http-invocations
+    description: 🌏 Exposes an HTTP interface on port 8080 and path /invocations
+    probe:
+      httpGet:
+        path: /
+        port: 8080
+      failureThreshold: 180
